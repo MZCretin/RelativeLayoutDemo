@@ -65,14 +65,15 @@ public class MainActivity extends AppCompatActivity implements MyRelativeLayout.
 
     public void btnClickExplain(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("注意:");
+        builder.setTitle("温馨提示:");
         builder.setMessage("一、点击自定义View可以创建标签，点击标签滑动可以改变标签位置；\n" +
                 "二、在View上进行两指缩放旋转可以改变标签的方向和大小，当有多个标签TextView存在时，两指缩放和旋转会自动寻找离两指中心点最近的TextView标签进行操作！\n" +
                 "三、在自定义上可识别左滑和右滑操作；\n" +
                 "四、可监控TextView的实时滑动!\n" +
                 "五、对话框中可滑动滑条改变字体颜色!\n" +
                 "六、点击保存能将画布生成图片保存下来!\n" +
-                "七、有需要的伙伴可以自定义添加新功能！");
+                "七、有需要的伙伴可以自定义添加新功能！\n" +
+                "欢迎一起交流 792075058@qq.com");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
