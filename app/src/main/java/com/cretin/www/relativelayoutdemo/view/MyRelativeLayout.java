@@ -98,6 +98,9 @@ public class MyRelativeLayout extends RelativeLayout {
     private float currentX;
     private float currentY;
 
+    //记录当前设备的缩放倍数
+    private double scaleTimes = 1;
+
 
     public MyRelativeTouchCallBack getMyRelativeTouchCallBack() {
         return myRelativeTouchCallBack;
@@ -127,41 +130,17 @@ public class MyRelativeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         this.context = context;
 
+        testScaleTimes();
+
         init();
+    }
 
-        iv = new ImageView(context);
-        iv.setLayoutParams(new ViewGroup.LayoutParams(20, 20));
-        iv.setBackgroundColor(Color.RED);
-        iv.setVisibility(GONE);
-//        addView(iv);
-
-        btn = new Button(context);
-        btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        btn.setText("添加TextView");
-        btn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-//        addView(btn);
-
-        //测试
-        btn1 = new Button(context);
-        btn1.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        btn1.setText("看数据");
-        btn1.setX(300);
-        btn1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < listTvParams.size(); i++) {
-                    Log.d("HHHHH", listTvParams.get(i).toString());
-                }
-                for (int i = 0; i < listDistance.size(); i++) {
-                    Log.d("HHH", "listDistance: " + listDistance.get(i));
-                }
-            }
-        });
-//        addView(btn1);
+    //计算缩放倍数
+    private void testScaleTimes() {
+        TextView tv = new TextView(context);
+        tv.setTextSize(1);
+        scaleTimes = tv.getTextSize();
+        Log.e("HHHHHHH","缩放倍数"+scaleTimes);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -557,7 +536,7 @@ public class MyRelativeLayout extends RelativeLayout {
             TextViewParams param = new TextViewParams();
             if (tv.getTag().toString().equals(listTvParams.get(i).getTag())) {
                 param.setRotation(rotation);
-                param.setTextSize(tv.getTextSize() / 2);
+                param.setTextSize((float) (tv.getTextSize() / scaleTimes));
                 param.setMidPoint(getViewMidPoint(tv));
                 param.setScale(scale);
                 textSize = tv.getTextSize() / 2;
@@ -584,7 +563,7 @@ public class MyRelativeLayout extends RelativeLayout {
         if (textView != null) {
             tvParams = new TextViewParams();
             tvParams.setRotation(0);
-            tvParams.setTextSize(textView.getTextSize() / 2);
+            tvParams.setTextSize((float) (textView.getTextSize() / scaleTimes));
             tvParams.setX(textView.getX());
             tvParams.setY(textView.getY());
             tvParams.setWidth(textView.getWidth());
