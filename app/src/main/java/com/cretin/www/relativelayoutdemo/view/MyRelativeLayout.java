@@ -15,15 +15,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cretin.www.relativelayoutdemo.app.AppConstants;
 import com.cretin.www.relativelayoutdemo.R;
+import com.cretin.www.relativelayoutdemo.app.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +32,10 @@ import java.util.List;
  * Created by cretin on 15/12/17.
  */
 public class MyRelativeLayout extends RelativeLayout {
-    //测试
-    private ImageView iv;
-    private Button btn;
-    private Button btn1;
-
     private Context context;
     private TextView textView;
     private TextViewParams tvParams;
 
-    private EditText editText;
     private boolean flag = false;
     private boolean mflag = false;
     private boolean onefinger;
@@ -93,7 +85,6 @@ public class MyRelativeLayout extends RelativeLayout {
 
     private float defaultAngle;
 
-
     //记录当前点击坐标
     private float currentX;
     private float currentY;
@@ -140,10 +131,9 @@ public class MyRelativeLayout extends RelativeLayout {
         TextView tv = new TextView(context);
         tv.setTextSize(1);
         scaleTimes = tv.getTextSize();
-        Log.e("HHHHHHH","缩放倍数"+scaleTimes);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi( Build.VERSION_CODES.LOLLIPOP )
     public MyRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -151,10 +141,10 @@ public class MyRelativeLayout extends RelativeLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mEvent = event;
-        if (textSize == 0 && textView != null) {
+        if ( textSize == 0 && textView != null ) {
             textSize = textView.getTextSize();
         }
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+        switch ( event.getAction() & MotionEvent.ACTION_MASK ) {
             case MotionEvent.ACTION_DOWN:
                 Log.d("HHHH", "ACTION_DOWN");
                 //此时有一个手指头落点
@@ -168,14 +158,14 @@ public class MyRelativeLayout extends RelativeLayout {
                 currentY = event.getY();
 
                 ptrID1 = event.getPointerId(event.getActionIndex());
-                if (textView != null) {
+                if ( textView != null ) {
                     //计算当前textView的位置和大小
                     width = textView.getWidth();
                     height = textView.getHeight();
                     startX = textView.getX();
                     startY = textView.getY();
 
-                    if (event.getX() <= (startX + width) && event.getX() >= startX && event.getY() <= (startY + height) && event.getY() >= startY) {
+                    if ( event.getX() <= (startX + width) && event.getX() >= startX && event.getY() <= (startY + height) && event.getY() >= startY ) {
                         //计算手势在控件上的偏移量
                         tv_width = event.getX() - startX;
                         tv_height = event.getY() - startY;
@@ -199,26 +189,26 @@ public class MyRelativeLayout extends RelativeLayout {
 
                 flag = false;
 
-                if (listTvParams != null && !listTvParams.isEmpty()) {
+                if ( listTvParams != null && !listTvParams.isEmpty() ) {
                     //当第二个手指落指的时候 开始计算寻找最近的点
                     listDistance.clear();
-                    for (int i = 0; i < listTvParams.size(); i++) {
-                        listDistance.add(spacing(getMidPiont((int) fX, (int) fY, (int) sX, (int) sY), listTvParams.get(i).getMidPoint()));
+                    for ( int i = 0; i < listTvParams.size(); i++ ) {
+                        listDistance.add(spacing(getMidPiont(( int ) fX, ( int ) fY, ( int ) sX, ( int ) sY), listTvParams.get(i).getMidPoint()));
                     }
 //寻找最近的点
-                    if (list != null && !list.isEmpty()) {
+                    if ( list != null && !list.isEmpty() ) {
                         double min = listDistance.get(0);
                         num = 0;
-                        for (int i = 1; i < listDistance.size(); i++) {
-                            if (min > listDistance.get(i)) {
+                        for ( int i = 1; i < listDistance.size(); i++ ) {
+                            if ( min > listDistance.get(i) ) {
                                 min = listDistance.get(i);
                                 num = i;
                             }
                         }
                         textView = null;
                         textView = list.get(num);
-                        tv_widths = getMidPiont((int) fX, (int) fY, (int) sX, (int) sY).x - textView.getX();
-                        tv_heights = getMidPiont((int) fX, (int) fY, (int) sX, (int) sY).y - textView.getY();
+                        tv_widths = getMidPiont(( int ) fX, ( int ) fY, ( int ) sX, ( int ) sY).x - textView.getX();
+                        tv_heights = getMidPiont(( int ) fX, ( int ) fY, ( int ) sX, ( int ) sY).y - textView.getY();
 
                         oldDist = spacing(event, ptrID1, ptrID2);
                         setTextViewParams(getTextViewParams(textView));
@@ -229,10 +219,10 @@ public class MyRelativeLayout extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
                 Log.d("HHHH", "ACTION_MOVE");
 
-                if (textView != null) {
+                if ( textView != null ) {
                     //平移操作已经交给自己控件自己处理
                     //旋转和缩放操作
-                    if (ptrID1 != INVALID_POINTER_ID && ptrID2 != INVALID_POINTER_ID) {
+                    if ( ptrID1 != INVALID_POINTER_ID && ptrID2 != INVALID_POINTER_ID ) {
                         float nfX, nfY, nsX, nsY;
                         nsX = event.getX(event.findPointerIndex(ptrID1));
                         nsY = event.getY(event.findPointerIndex(ptrID1));
@@ -251,11 +241,11 @@ public class MyRelativeLayout extends RelativeLayout {
                         //处理缩放模块
                         float newDist = spacing(event, ptrID1, ptrID2);
                         scale = newDist / oldDist;
-                        if (newDist > oldDist + 1) {
+                        if ( newDist > oldDist + 1 ) {
                             zoom(scale);
                             oldDist = newDist;
                         }
-                        if (newDist < oldDist - 1) {
+                        if ( newDist < oldDist - 1 ) {
                             zoom(scale);
                             oldDist = newDist;
                         }
@@ -264,14 +254,14 @@ public class MyRelativeLayout extends RelativeLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 Log.d("HHHH", "ACTION_UP");
-                if (onefinger) {
-                    if (spacing(firstX, firstY, event.getX(), event.getY()) < 10) {
+                if ( onefinger ) {
+                    if ( spacing(firstX, firstY, event.getX(), event.getY()) < 10 ) {
                         showDialog("", true);
                         Toast.makeText(context, "这个是自定义View上的单击事件！", Toast.LENGTH_SHORT).show();
                     } else {
-                        if (myRelativeTouchCallBack != null) {
-                            if (Math.abs(firstX - event.getX()) > Math.abs(firstY - event.getY())) {
-                                if (firstX < event.getX()) {
+                        if ( myRelativeTouchCallBack != null ) {
+                            if ( Math.abs(firstX - event.getX()) > Math.abs(firstY - event.getY()) ) {
+                                if ( firstX < event.getX() ) {
                                     Log.d("HHH", "你应该是在右滑吧");
                                     myRelativeTouchCallBack.touchMoveCallBack(AppConstants.MOVE_RIGHT);
                                 } else {
@@ -288,7 +278,7 @@ public class MyRelativeLayout extends RelativeLayout {
             case MotionEvent.ACTION_POINTER_UP:
                 Log.d("HHHH", "ACTION_UP_POINTER");
                 ptrID2 = INVALID_POINTER_ID;
-                if (list != null && !list.isEmpty()) {
+                if ( list != null && !list.isEmpty() ) {
                     updateTextViewParams(list.get(num), mAngle, scale);
                 }
                 break;
@@ -313,7 +303,7 @@ public class MyRelativeLayout extends RelativeLayout {
      *
      * @param bitmap
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi( Build.VERSION_CODES.JELLY_BEAN )
     public void setBackGroundBitmap(Bitmap bitmap) {
         setBackground(new BitmapDrawable(bitmap));
     }
@@ -322,8 +312,8 @@ public class MyRelativeLayout extends RelativeLayout {
      * 添加一个TextView到界面上
      */
     public void addTextView(TextView tv, float x, float y, String content, int color, float mtextSize, float rotate) {
-        if (tv == null) {
-            if (mtextSize == 0) {
+        if ( tv == null ) {
+            if ( mtextSize == 0 ) {
                 mtextSize = DEFAULT_TEXTSIZE;
             }
             textView = new TextView(context);
@@ -340,8 +330,8 @@ public class MyRelativeLayout extends RelativeLayout {
             textView.setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    textView = (TextView) v;
-                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    textView = ( TextView ) v;
+                    switch ( event.getAction() & MotionEvent.ACTION_MASK ) {
                         case MotionEvent.ACTION_DOWN:
                             tvOneFinger = true;
                             isClick = true;
@@ -353,7 +343,7 @@ public class MyRelativeLayout extends RelativeLayout {
                             //计算当前textView的位置和大小
                             width = textView.getWidth();
                             height = textView.getHeight();
-                            if (mEvent != null) {
+                            if ( mEvent != null ) {
                                 mTv_width = mEvent.getX() - textView.getX();
                                 mTv_height = mEvent.getY() - textView.getY();
                             }
@@ -371,28 +361,28 @@ public class MyRelativeLayout extends RelativeLayout {
 
                             mflag = false;
 //
-                            mTv_widths = getMidPiont((int) mfX, (int) mfY, (int) msX, (int) msY).x - textView.getX();
-                            mTv_heights = getMidPiont((int) mfX, (int) mfY, (int) msX, (int) msY).y - textView.getY();
+                            mTv_widths = getMidPiont(( int ) mfX, ( int ) mfY, ( int ) msX, ( int ) msY).x - textView.getX();
+                            mTv_heights = getMidPiont(( int ) mfX, ( int ) mfY, ( int ) msX, ( int ) msY).y - textView.getY();
 //
                             oldDist = spacing(event, mptrID1, mptrID2);
 
                             break;
                         case MotionEvent.ACTION_MOVE:
                             //平移操作
-                            if (mflag && mEvent != null) {
+                            if ( mflag && mEvent != null ) {
                                 textView.setX(mEvent.getX() - mTv_width);
                                 textView.setY(mEvent.getY() - mTv_height);
                                 //通知调用者我在平移
-                                if (myRelativeTouchCallBack != null)
+                                if ( myRelativeTouchCallBack != null )
                                     myRelativeTouchCallBack.onTextViewMoving(textView);
                             }
 
-                            if (spacing(firstX, firstY, event.getX(), event.getY()) > 2) {
+                            if ( spacing(firstX, firstY, event.getX(), event.getY()) > 2 ) {
                                 isClick = false;
                             }
 
                             //旋转和缩放操作
-                            if (mptrID1 != INVALID_POINTER_ID && mptrID2 != INVALID_POINTER_ID) {
+                            if ( mptrID1 != INVALID_POINTER_ID && mptrID2 != INVALID_POINTER_ID ) {
                                 float nfX, nfY, nsX, nsY;
                                 nsX = mEvent.getX(event.findPointerIndex(mptrID1));
                                 nsY = mEvent.getY(event.findPointerIndex(mptrID1));
@@ -400,8 +390,8 @@ public class MyRelativeLayout extends RelativeLayout {
                                 nfY = mEvent.getY(event.findPointerIndex(mptrID2));
 
                                 //如果两点中点在该View上,则考虑两个点也可以拖动该View操作
-                                textView.setX(getMidPiont((int) nfX, (int) nfY, (int) nsX, (int) nsY).x - mTv_widths);
-                                textView.setY(getMidPiont((int) nfX, (int) nfY, (int) nsX, (int) nsY).y - mTv_heights);
+                                textView.setX(getMidPiont(( int ) nfX, ( int ) nfY, ( int ) nsX, ( int ) nsY).x - mTv_widths);
+                                textView.setY(getMidPiont(( int ) nfX, ( int ) nfY, ( int ) nsX, ( int ) nsY).y - mTv_heights);
                                 //处理旋转模块
                                 mAngle = angleBetweenLines(mfX, mfY, msX, msY, nfX, nfY, nsX, nsY);
                                 textView.setRotation(mAngle);
@@ -409,34 +399,34 @@ public class MyRelativeLayout extends RelativeLayout {
                                 float newDist = spacing(event, mptrID1, mptrID2);
                                 scale = newDist / oldDist;
 
-                                if (newDist > oldDist + 1) {
+                                if ( newDist > oldDist + 1 ) {
                                     textView.setTextSize(textSize *= scale);
                                     oldDist = newDist;
                                 }
-                                if (newDist < oldDist - 1) {
+                                if ( newDist < oldDist - 1 ) {
                                     textView.setTextSize(textSize *= scale);
                                     oldDist = newDist;
                                 }
                                 //通知调用者我在旋转或者缩放
-                                if (myRelativeTouchCallBack != null)
+                                if ( myRelativeTouchCallBack != null )
                                     myRelativeTouchCallBack.onTextViewMoving(textView);
                             }
                             break;
                         case MotionEvent.ACTION_UP:
                             //通知调用者我滑动结束了
-                            if (myRelativeTouchCallBack != null)
+                            if ( myRelativeTouchCallBack != null )
                                 myRelativeTouchCallBack.onTextViewMovingDone();
                             mptrID1 = INVALID_POINTER_ID;
-                            updateTextViewParams((TextView) v, mAngle, scale);
+                            updateTextViewParams(( TextView ) v, mAngle, scale);
 
-                            if (tvOneFinger && isClick) {
+                            if ( tvOneFinger && isClick ) {
                                 showDialog(textView.getText().toString(), false);
                             }
 
                             break;
                         case MotionEvent.ACTION_POINTER_UP:
                             mptrID2 = INVALID_POINTER_ID;
-                            updateTextViewParams((TextView) v, mAngle, scale);
+                            updateTextViewParams(( TextView ) v, mAngle, scale);
                             break;
                         case MotionEvent.ACTION_CANCEL:
                             mptrID1 = INVALID_POINTER_ID;
@@ -470,11 +460,6 @@ public class MyRelativeLayout extends RelativeLayout {
         list = new ArrayList<>();
         listTvParams = new ArrayList<>();
         listDistance = new ArrayList<>();
-
-        editText = new EditText(context);
-        editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        editText.setVisibility(GONE);
-        addView(editText);
     }
 
 
@@ -486,10 +471,10 @@ public class MyRelativeLayout extends RelativeLayout {
         colors[0] = Color.BLACK;
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.layout_dialog, null);
-        final EditText editText = (EditText) view.findViewById(R.id.dialog_edittext);
-        TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
-        TextView ok = (TextView) view.findViewById(R.id.tv_ok);
-        ColorTagImageView colorTagImageView = (ColorTagImageView) view.findViewById(R.id.color_tag);
+        final EditText editText = ( EditText ) view.findViewById(R.id.dialog_edittext);
+        TextView cancel = ( TextView ) view.findViewById(R.id.tv_cancel);
+        TextView ok = ( TextView ) view.findViewById(R.id.tv_ok);
+        ColorTagImageView colorTagImageView = ( ColorTagImageView ) view.findViewById(R.id.color_tag);
         colorTagImageView.setListener(new ColorTagImageView.OnColorTagChanges() {
             @Override
             public void onColorChange(int color) {
@@ -505,10 +490,10 @@ public class MyRelativeLayout extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 String content = editText.getText().toString();
-                if (TextUtils.isEmpty(content)) {
+                if ( TextUtils.isEmpty(content) ) {
                     Toast.makeText(context, "您没有任何输入!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (isNew) {
+                    if ( isNew ) {
                         addTextView(null, currentX, currentY, content, colors[0], 0, 0);
                     } else {
                         addTextView(textView, textView.getX(), textView.getY(), content, colors[0], textView.getTextSize(), textView.getRotation());
@@ -532,11 +517,11 @@ public class MyRelativeLayout extends RelativeLayout {
      * @param tv
      */
     private void updateTextViewParams(TextView tv, float rotation, float scale) {
-        for (int i = 0; i < listTvParams.size(); i++) {
+        for ( int i = 0; i < listTvParams.size(); i++ ) {
             TextViewParams param = new TextViewParams();
-            if (tv.getTag().toString().equals(listTvParams.get(i).getTag())) {
+            if ( tv.getTag().toString().equals(listTvParams.get(i).getTag()) ) {
                 param.setRotation(rotation);
-                param.setTextSize((float) (tv.getTextSize() / scaleTimes));
+                param.setTextSize(( float ) (tv.getTextSize() / scaleTimes));
                 param.setMidPoint(getViewMidPoint(tv));
                 param.setScale(scale);
                 textSize = tv.getTextSize() / 2;
@@ -560,10 +545,10 @@ public class MyRelativeLayout extends RelativeLayout {
      * @return
      */
     private void saveTextViewparams(TextView textView) {
-        if (textView != null) {
+        if ( textView != null ) {
             tvParams = new TextViewParams();
             tvParams.setRotation(0);
-            tvParams.setTextSize((float) (textView.getTextSize() / scaleTimes));
+            tvParams.setTextSize(( float ) (textView.getTextSize() / scaleTimes));
             tvParams.setX(textView.getX());
             tvParams.setY(textView.getY());
             tvParams.setWidth(textView.getWidth());
@@ -571,7 +556,7 @@ public class MyRelativeLayout extends RelativeLayout {
             tvParams.setContent(textView.getText().toString());
             tvParams.setMidPoint(getViewMidPoint(textView));
             tvParams.setScale(1);
-            tvParams.setTag(String.valueOf((long) textView.getTag()));
+            tvParams.setTag(String.valueOf(( long ) textView.getTag()));
             tvParams.setRotation(mAngle);
             tvParams.setTextColor(textView.getCurrentTextColor());
             listTvParams.add(tvParams);
@@ -585,8 +570,8 @@ public class MyRelativeLayout extends RelativeLayout {
      * @return
      */
     private TextViewParams getTextViewParams(TextView tv) {
-        for (int i = 0; i < listTvParams.size(); i++) {
-            if (listTvParams.get(i).getTag().equals(String.valueOf((long) tv.getTag()))) {
+        for ( int i = 0; i < listTvParams.size(); i++ ) {
+            if ( listTvParams.get(i).getTag().equals(String.valueOf(( long ) tv.getTag())) ) {
                 return listTvParams.get(i);
             }
         }
@@ -657,11 +642,11 @@ public class MyRelativeLayout extends RelativeLayout {
      */
     private Point getViewMidPoint(View view) {
         Point point = new Point();
-        if (view != null) {
+        if ( view != null ) {
             float xx = view.getX();
             float yy = view.getY();
-            int center_x = (int) (xx + view.getWidth() / 2);
-            int center_y = (int) (yy + view.getHeight() / 2);
+            int center_x = ( int ) (xx + view.getWidth() / 2);
+            int center_y = ( int ) (yy + view.getHeight() / 2);
             point.set(center_x, center_y);
         } else {
             point.set(0, 0);
@@ -712,12 +697,12 @@ public class MyRelativeLayout extends RelativeLayout {
      * @return 构成的角度值
      */
     private float angleBetweenLines(float fX, float fY, float sX, float sY, float nfX, float nfY, float nsX, float nsY) {
-        float angle1 = (float) Math.atan2((fY - sY), (fX - sX));
-        float angle2 = (float) Math.atan2((nfY - nsY), (nfX - nsX));
+        float angle1 = ( float ) Math.atan2((fY - sY), (fX - sX));
+        float angle2 = ( float ) Math.atan2((nfY - nsY), (nfX - nsX));
 
-        float angle = ((float) Math.toDegrees(angle1 - angle2)) % 360;
-        if (angle < -180.f) angle += 360.0f;
-        if (angle > 180.f) angle -= 360.0f;
+        float angle = (( float ) Math.toDegrees(angle1 - angle2)) % 360;
+        if ( angle < -180.f ) angle += 360.0f;
+        if ( angle > 180.f ) angle -= 360.0f;
         return -angle;
     }
 
@@ -769,7 +754,6 @@ public class MyRelativeLayout extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        Log.d("HHHH", "onMeasure-->我被调用了哦" + widthMeasureSpec + " " + heightMeasureSpec);
     }
 
 

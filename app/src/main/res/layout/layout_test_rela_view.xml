@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="70dp"
+    android:background="#00ff00"
+    android:layout_height="70dp">
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_margin="5dp"
+        android:src="@mipmap/test_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:padding="10dp"
+        android:layout_below="@+id/iv_pic"
+        android:text="测试数据"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
